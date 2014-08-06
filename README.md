@@ -11,6 +11,10 @@ usage:
 ccd2cue.py convert --ccd CCDSHEET --img IMGFILE --cue CUESHEET
 
 requared arguments:
+
   --ccd CCDSHEET  ccd file name
+
   --img IMGFILE   img file name
+
   --cue CUESHEET  output cue file
+
