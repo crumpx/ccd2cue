@@ -22,19 +22,24 @@ def CCD2CUE(ccdsheet,imgfile,cuesheet ):
     Config.read(ccdsheet)
     cuefile = open(cuesheet, 'wb')
 
-    track_counter = 1
+    track_counter = 0
+    BEGIN = False
     cuefile.write("FILE \"%s\" BINARY\r\n " % (imgfile))
-    cuefile.write("  TRACK 01 AUDIO\r\n    INDEX 01 00:00:00\r\n")
-
     for item in Config.sections():
-
+        if 'Entry' not in item:
+            continue
         trackinfo = {}
-        try:
-            trackinfo['tracktype'] = ConfigSectionMap(Config,item)['control']
-            trackinfo['minute'] = int(ConfigSectionMap(Config, item)['pmin'])
-            trackinfo['second'] = int(ConfigSectionMap(Config,item)['psec'])
-            trackinfo['frame'] = int(ConfigSectionMap(Config,item)['pframe'])
-            if trackinfo['frame'] == 0:
+        trackinfo['tracktype'] = ConfigSectionMap(Config,item)['control']
+        trackinfo['minute'] = int(ConfigSectionMap(Config, item)['pmin'])
+        trackinfo['second'] = int(ConfigSectionMap(Config,item)['psec'])
+        trackinfo['frame'] = int(ConfigSectionMap(Config,item)['pframe'])
+
+        if int(ConfigSectionMap(Config,item)['plba']) == 0:
+            BEGIN = True
+
+        if BEGIN is True:
+
+            if trackinfo['frame'] == 0 and trackinfo['tracktype'] != '0x04':
                 continue
             else:
                 track_counter += 1
@@ -52,8 +57,7 @@ def CCD2CUE(ccdsheet,imgfile,cuesheet ):
                                                trackinfo['minute'],
                                                trackinfo['second'],
                                                trackinfo['frame'],))
-        except:
-            pass
+
     cuefile.close()
 if __name__ == '__main__':
     from argparse import ArgumentParser
