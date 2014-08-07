@@ -45,6 +45,7 @@ def CCD2CUE(ccdsheet):
 
         trackinfo = {}
         tracktype = ConfigSectionMap(Config,item)['control']
+        trackindex = int(ConfigSectionMap(Config,item)['session'])
         trackinfo['minute'] = int(ConfigSectionMap(Config, item)['pmin'])
         trackinfo['second'] = int(ConfigSectionMap(Config,item)['psec'])
         trackinfo['frame'] = int(ConfigSectionMap(Config,item)['pframe'])
@@ -63,8 +64,9 @@ def CCD2CUE(ccdsheet):
                     trackinfo['second'] = 0
             trackinfo['second'] -= 2
             cuefile.write("  TRACK %02d %s\r\n" \
-                  "    INDEX 01 %02d:%02d:%02d\r\n" % (track_counter,
+                  "    INDEX %02d %02d:%02d:%02d\r\n" % (track_counter,
                                                "MODE1/2352" if tracktype == '0x04' else 'AUDIO',
+                                               trackindex,
                                                trackinfo['minute'],
                                                trackinfo['second'],
                                                trackinfo['frame'],))
@@ -73,9 +75,6 @@ def CCD2CUE(ccdsheet):
 if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    subparsers = parser.add_subparsers(help='Description of commands:', dest='command')
-    rename_parser = subparsers.add_parser('convert', help='To convert ccd sheet to cue sheet')
-    rename_parser.add_argument('--ccd', dest='ccdsheet', required=True, help='ccd file name')
-
+    parser.add_argument('--ccd', dest='ccdsheet', required=True, help='ccd file name')
     args = parser.parse_args()
     CCD2CUE(args.ccdsheet)
