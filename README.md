@@ -8,13 +8,10 @@ Loaded with OpenEMU v1.03
 
 usage:
 
-ccd2cue.py convert --ccd CCDSHEET --img IMGFILE --cue CUESHEET
+ccd2cue.py convert --ccd CCDSHEET 
 
 requared arguments:
 
   --ccd CCDSHEET  ccd file name
 
-  --img IMGFILE   img file name
-
-  --cue CUESHEET  output cue file
 
