@@ -74,7 +74,7 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
     subparsers = parser.add_subparsers(help='Description of commands:', dest='command')
-    rename_parser = subparsers.add_parser('convert', help='To rename a file to and move it to the \"Renamed\" folder.')
+    rename_parser = subparsers.add_parser('convert', help='To convert ccd sheet to cue sheet')
     rename_parser.add_argument('--ccd', dest='ccdsheet', required=True, help='ccd file name')
 
     args = parser.parse_args()
