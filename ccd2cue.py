@@ -5,7 +5,8 @@
 https://github.com/crumpx/ccd2cue.git
 '''
 
-import ConfigParser
+#pip install config-parser
+import configparser
 import os
 
 def ConfigSectionMap(Config, section):
@@ -31,9 +32,9 @@ def CCD2CUE(ccdsheet):
         if os.path.splitext(f)[1] in imagetype:
             imgfile = f
 
-    Config = ConfigParser.ConfigParser()
+    Config = configparser.ConfigParser()
     Config.read(ccdsheet)
-    cuefile = open(cuesheet, 'wb')
+    cuefile = open(cuesheet, 'w')
 
     track_counter = 0
     BEGIN = False
